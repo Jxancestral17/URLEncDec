@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"os"
+	"strings"
 )
 
 func EncodeURL(text string) string {
@@ -19,11 +21,63 @@ func DecodeURL(text string) string {
 	return decText
 }
 
+func Read(text string) string {
+	content, err := os.ReadFile(text)
+	if err != nil {
+		log.Fatal(err)
+	}
+	k := string(content)
+	g := strings.ReplaceAll(k, "\n", "")
+	s := strings.ReplaceAll(g, " ", "")
+	return s
+}
+
+func help() {
+	fmt.Println("[+]********************************************[+]")
+	fmt.Println("[+]\t☠️    URLEncDec By ЙАКН³Щ⁺РЕ³!\t☠️      [+]")
+	fmt.Println("[+]\t\t\t©2023\t\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]\t -h Help\t\t\t       [+]\n[+]\t -i input file ex: xss.js\t       [+]\n[+]\t -e Encode\t\t\t       [+]\n[+]\t -d Decode\t\t\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]\tex: ./urlencdec -e -i xss.js\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]\t\t\t\t\t       [+]")
+	fmt.Println("[+]********************************************[+]")
+}
+
+func checkError(length int) {
+	if length == 2 {
+		log.Fatal("Miss params -i path_file ")
+	} else if length == 3 {
+		log.Fatal("Miss params the path_file ")
+	}
+}
+
 func main() {
-	s := "<scritp>alert(0); document.querySelector('var')</scritp>"
-	encod := EncodeURL(s)
-	decod := DecodeURL(encod)
-	fmt.Println(encod)
-	fmt.Println(decod)
+	args := os.Args
+	length := len(args)
+	if len(args) == 1 {
+		help()
+	} else {
+		if args[1] == "-h" {
+			help()
+		} else if args[1] == "-e" {
+			checkError(length)
+			if args[2] == "-i" {
+				content := Read(args[3])
+				fmt.Println(EncodeURL(content))
+			}
+		} else if args[1] == "-d" {
+			checkError(length)
+			if args[2] == "-i" {
+				content := Read(args[3])
+				fmt.Println(DecodeURL(content))
+			}
+		} else {
+			fmt.Println("urlencdec -h for help")
+		}
+	}
 
 }
