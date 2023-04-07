@@ -1,9 +1,9 @@
 build:
-	@go build -o bin/fs
+	@go build -o bin/urlencdec
 
 
 run: build 
-	@./bin/fs
+	@./bin/urlencdec
 
 test:
 	@go test ./... -v
