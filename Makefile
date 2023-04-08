@@ -1,9 +1,9 @@
 build:
-	@go build -o bin/urlencdec
+	@go build -o bin/JXSS
 
 
 run: build 
-	@./bin/urlencdec
+	@./bin/JXSS
 
 test:
 	@go test ./... -v
